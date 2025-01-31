@@ -19,19 +19,23 @@ typedef struct{
     int tail;
 } Queue;
 
+// initialisation of the queue
 void init(Queue* q){
     q -> head = -1;
     q -> tail = -1;
 }
 
+// Checking for if empty
 bool isEmpty(Queue* q){
-    return (q->head == -1 || q->head > q->tail);
+    return (q->head == -1 || q->head > q->tail);    // checking if it is initialised or if all the elements have been removed
 }
 
+// Checking for if full
 bool isFull(Queue* q){
     return (q->tail == SIZE - 1);
 }
 
+// Add an item to the queue
 bool enqueue(Queue* q, int value){
     if (isFull(q)){
         printf("Queue is Full\n");
@@ -42,26 +46,23 @@ bool enqueue(Queue* q, int value){
         q->head=0;
     }
 
-    q->tail++;
-    q->items[q->tail] = value;
+    q->tail++;                      // tail goes to next point in the queue
+    q->items[q->tail] = value;      // add item to queue
 
     printf("Added: %d\n", value);
     return true;
 }
 
+// Remove an item from the queue
 int dequeue(Queue* q){
     if (isEmpty(q)){
         printf("Queue is empty\n");
         return false;
     }
 
-    int value = q->items[q->head];
-    q->head++;
-    printf("Removed: %d\n", value);
-
-    if (q->head > q->tail){
-        init(q);
-    }
+    int value = q->items[q->head];      // value of the item that is being removed
+    q->head++;                          // shift head to next element to be removed
+    printf("Removed: %d\n", value);     
 
     return value;
 }
@@ -72,6 +73,7 @@ int dequeue(Queue* q){
 void setUp(void) {}     
 void tearDown(void) {} 
 
+// Testing for adding extra items to the queue 
 void testing_enqueue(void){
     Queue q;
     init(&q);
@@ -86,6 +88,7 @@ void testing_enqueue(void){
     TEST_ASSERT_EQUAL(1, dequeue(&q));
 }
 
+// Testing for removing items for the queue
 void testing_dequeue(void){
     Queue q;
     init(&q);
